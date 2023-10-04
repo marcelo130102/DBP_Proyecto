@@ -14,6 +14,14 @@ class Peliculas(db.Model):
     disponible = db.Column(db.Boolean)
     sinopsis = db.Column(db.Text)
 
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    password_k = db.Column(db.String(255), nullable=False)
+
+
+
 @app.route("/")
 def main():
     peliculas = Peliculas.query.all()
@@ -29,6 +37,11 @@ def ver_pelicula(pelicula_id):
 @app.route('/registro')
 def registro():
     return render_template('registro.html')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route('/agregar_pelicula', methods=['POST'])
 def agregar_pelicula():
@@ -46,6 +59,22 @@ def agregar_pelicula():
     db.session.commit()
 
     return jsonify({'mensaje': 'Pelicula agregada correctamente'})
+
+
+@app.route('/send_login', methods=['POST'])
+def send_login():
+    data = request.get_json()
+    print(data)
+    user = Users.query.filter_by(email=data['email']).first()
+
+
+    if user:
+        if user.password_k == data['password']:
+            return jsonify({'mensaje': 'Bienvenido', 'status': 'autorizado'})
+        else:
+            return jsonify({'mensaje': 'Contraseña incorrecta', 'status': 'no_autorizado'})
+    else:
+        return jsonify({'mensaje': 'Usuario no encontrado'})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,72 @@
+body {
+  margin-top: 60px;
+  padding-top: 40px;
+}
+
+.navbar {
+  height: 80px;
+  display: flex;
+  box-shadow: 1px 3px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+b {
+  padding: 25px;
+  text-decoration: none;
+  font-size: 18px;
+}
+a {
+  font-size: 15px;
+}
+p {
+  font-size: 15px;
+}
+a:hover {
+  color: rgb(17, 79, 249) !important;
+}
+i {
+  font-size: 25px;
+}
+.title_footer {
+  margin-top: 40px;
+  font-size: 17px;
+}
+li {
+  font-size: 15px;
+}
+
+
+/* Path: static/styles.css */
+.card-header {
+  color: white;
+}
+.label_login {
+  color: white;
+}
+
+.container_login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #e6d7d74b;
+  background-image: url('/static/images/cine.jpg');
+  background-size: cover;
+  background-position: center;
+  margin-top: -40px;
+}
+
+.card {
+  background-color: #111f35b0;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #170b81;
+  border-color: #130c75;
+}
+
+.btn-primary:hover {
+  background-color: #040422;
+  border-color: #07042e;
+}

@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de Películas</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-4">
-        <h1>Lista de Películas</h1>
-        <div class="row">
-            {% for pelicula in peliculas %}
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <!-- <img src="{{ pelicula.imagen }}" class="card-img-top" alt="{{ pelicula.nombre }}"> -->
-                    <div class="card-body">
-                        <h5 class="card-title">{{ pelicula.nombre }}</h5>
-                        <p class="card-text">Director: {% if pelicula.director != '{}' %}{{pelicula.director}}{% else %}No disponible{% endif %}</p>
-                        <p class="card-text">Año: {{ pelicula.año }}</p>
-                        <p class="card-text">Precio de Alquiler: ${{ pelicula.precio_alquiler }}</p>
-                        <p class="card-text">Disponible: {% if pelicula.disponible %}Sí{% else %}No{% endif %}</p>
-                        <a href="{{ url_for('ver_pelicula', pelicula_id=pelicula.id) }}" class="btn btn-primary">Ver Detalles</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h1>Lista de Películas</h1>
+  <div class="row">
+    {% for pelicula in peliculas %}
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <!-- <img src="{{ pelicula.imagen }}" class="card-img-top" alt="{{ pelicula.nombre }}"> -->
+        <div class="card-body">
+          <h5 class="card-title">{{ pelicula.nombre }}</h5>
+          <p class="card-text">
+            Director: {% if pelicula.director != '{}' %}{{pelicula.director}}{%
+            else %}No disponible{% endif %}
+          </p>
+          <p class="card-text">Año: {{ pelicula.año }}</p>
+          <p class="card-text">
+            Precio de Alquiler: S/ {{ pelicula.precio_alquiler }}
+          </p>
+          <p class="card-text">
+            Disponible: {% if pelicula.disponible %}Sí{% else %}No{% endif %}
+          </p>
+          <a
+            href="{{ url_for('ver_pelicula', pelicula_id=pelicula.id) }}"
+            class="btn btn-primary"
+            >Ver Detalles</a
+          >
         </div>
+      </div>
     </div>
-</body>
-</html>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
