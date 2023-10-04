@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container my-3">
+        <h1>Formulario</h1>
+        <div class="container my-3">
+            <h1>Formulario</h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre de la pelicula</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Poner nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="director" class="form-label">Director</label>
+                    <input type="text" class="form-control" id="director" placeholder="Poner director" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ano" class="form-label">Año de estreno de la pelicula</label>
+                    <input type="text" class="form-control" id="ano" placeholder="Poner anio" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="precio" class="form-label">Precio de la pelicula</label>
+                    <input type="text" class="form-control" id="precio" placeholder="Poner precio (soles)" required>
+                </div>
+                
+                <label>¿Disponible?:</label><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="disponible" id="si" value="true">
+                    <label class="form-check-label" for="si">
+                        Si
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="disponible" id="no" value="false">
+                    <label class="form-check-label" for="no">
+                        No
+                    </label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="perfil" class="form-label">Sinopsis</label>
+                    <textarea class="form-control" id="perfil" rows="3"></textarea>
+                </div>
+
+                <!-- <div class="row" id="reparto">
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >
+                        <div class="mb-3">
+                            <label for="reparto" class="form-label">Reparto</label>
+                            <input type="text" class="form-control" id="reparto"  name ="reparto[]" placeholder="Poner reparto" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" id="agregar-reparto" class="btn btn-info">Agregar</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="col-auto">
+                            <br>
+                            <button type="button" id="eliminar-campo" class="btn btn-danger">Eliminar</button>
+                          </div>
+                    </div>
+                </div>
+                <br>
+                
+                <div class="row" id="categoria">
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoria(s)</label>
+                            <input type="text" class="form-control" id="categoria"  name ="categoria[]" placeholder="Poner categoria" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" id="agregar-categoria" class="btn btn-info">Agregar</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >
+                        <div class="col-auto">
+                            <br>
+                            <button type="button" id="eliminar-campo" class="btn btn-danger">Eliminar</button>
+                          </div>
+                    </div>
+                </div>
+                <br> -->
+
+                <button type="sumbit" id="submit" class="btn btn-success">Registrar</button>
+        </div>
+    </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#submit").click(function() {
+                // Obtener los valores de los campos del formulario
+                var nombre = $("#nombre").val();
+                var ano = $("#ano").val();
+                var precio = $("#precio").val();
+                var sinopsis = $("#sinopsis").val();
+                var disponible = $("input[name='disponible']:checked").val() === "true";
+                var director = $("#director").val();
+
+                // Crear un objeto JSON con los datos del formulario
+                console.log(nombre, ano, precio, sinopsis, disponible)
+                var data = {
+                    "nombre": nombre,
+                    "año": ano,
+                    "director": director,
+                    "precio_alquiler": precio,
+                    "sinopsis": sinopsis,
+                    "disponible": disponible
+                };
+
+                // Enviar los datos al servidor como JSON mediante una solicitud AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "/agregar_pelicula",  // Reemplaza esto con la URL correcta de tu endpoint
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function(response) {
+                        // Manejar la respuesta del servidor si es necesario
+                        console.log(response);
+                        alert("¡Película registrada!");
+                        window.location.href = "/";
+                    },
+                    error: function(error) {
+                        console.error("Error en la solicitud:", error);
+                        alert("¡Error al registrar la película!");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

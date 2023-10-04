@@ -12,6 +12,7 @@ class Peliculas(db.Model):
     año = db.Column(db.Integer)
     precio_alquiler = db.Column(db.Float)
     disponible = db.Column(db.Boolean)
+    sinopsis = db.Column(db.Text)
 
 @app.route("/")
 def main():
@@ -19,11 +20,20 @@ def main():
     peliculas_lista = []
     return render_template('index.html', peliculas=peliculas)
 
+@app.route('/pelicula/<int:pelicula_id>')
+def ver_pelicula(pelicula_id):
+    pelicula = Peliculas.query.get(pelicula_id)
+    return render_template('detalles.html', pelicula=pelicula)
+
+
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
 
 @app.route('/agregar_pelicula', methods=['POST'])
 def agregar_pelicula():
-    data = request.json
-
+    data = request.get_json()
+    
     nueva_pelicula = Peliculas(
         nombre=data['nombre'],
         director=data['director'],
@@ -35,7 +45,7 @@ def agregar_pelicula():
     db.session.add(nueva_pelicula)
     db.session.commit()
 
-    return jsonify({'mensaje': 'Pelicula agregada exitosamente'}), 201
+    return jsonify({'mensaje': 'Pelicula agregada correctamente'})
 
 if __name__ == '__main__':
     app.run(debug=True)
