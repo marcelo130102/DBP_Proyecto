@@ -1,130 +1,176 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Proyecto</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-  </head>
-  <body>
-    <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
-      <div class="container-fluid">
-        <b class="navbar-brand" href="#">PELICULAS</b>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar"
-          aria-controls="offcanvasNavbar"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles.css') }}"
+  />
+</head>
+<body>
+  <nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
+    <div class="container-fluid">
+      <b class="navbar-brand" href="#">PELICULAS</b>
+      <div class="carrito-container" >
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal">
+          <i class="fas fa-shopping-cart"></i> Carrito
+          <span id="carrito-count" class="badge bg-secondary">0</span>
         </button>
-        <div
-          class="offcanvas offcanvas-end"
-          tabindex="-1"
-          id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"
-        >
-          <div class="offcanvas-header">
-            <h5 class="title_footer offcanvas-title" id="offcanvasNavbarLabel">
-              MENU
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="title_footer offcanvas-title" id="offcanvasNavbarLabel">
+            MENU
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul
+            class="navbar-nav justify-content-end flex-grow-1 pe-3"
+            id="links-admin"
+          >
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/ver_carrito">Ver carrito</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Admin Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Cuerpo de la página que se usará en cada template -->
+  <div class="mt-20">{% block content %}{% endblock %}</div>
+
+    <!-- Modal del carrito -->
+    <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="carritoModalLabel">Carrito de Compras</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="offcanvas-body">
-            <ul
-              class="navbar-nav justify-content-end flex-grow-1 pe-3"
-              id="links-admin"
-            >
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/"
-                  >Inicio</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/login">Admin Login</a>
-              </li>
-            </ul>
+          <div class="modal-body" id="carrito-details">
+            <!-- Detalles del carrito se mostrarán aquí -->
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-primary" href="/ver_carrito" >Ver carrito</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <!-- Puedes agregar un botón para finalizar la compra aquí -->
           </div>
         </div>
       </div>
-    </nav>
+    </div>
+  </div>
 
-    <!-- Cuerpo de la página que se usará en cada template -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
 
-    <body>
-      <div class="mt-20">{% block content %}{% endblock %}</div>
-    </body>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
+  <script>
+    // Actualizar el contador del carrito
+    function actualizarContadorCarrito() {
+      var carritoCount = document.getElementById("carrito-count");
 
-    <script>
-      // Verificar si la variable local 'auth' existe y es igual a true
-      if (localStorage.getItem("auth") === "true") {
-        // Obtener el elemento <ul> del navbar con el ID 'links-admin'
-        var navbarUl = document.querySelector("#links-admin");
+      // Obtener la cantidad de elementos en el carrito desde el almacenamiento local
+      var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      var cantidadEnCarrito = carrito.length;
 
-        // Verificar si el elemento existe antes de agregar el enlace
-        if (navbarUl) {
-          var enlaceRegistro = document.createElement("li");
-          enlaceRegistro.classList.add("nav-item");
-          enlaceRegistro.innerHTML =
-            '<a class="nav-link" href="/registro">Registro</a>';
-          navbarUl.appendChild(enlaceRegistro);
+      // Mostrar la cantidad en el contador
+      carritoCount.innerText = cantidadEnCarrito;
+    }
 
-          // Agregar el enlace de "Cerrar Sesión" solo si 'auth' es true
-          var enlaceCerrarSesion = document.createElement("li");
-          enlaceCerrarSesion.classList.add("nav-item");
-          enlaceCerrarSesion.innerHTML =
-            '<a class="nav-link" href="#" id="logout-link">Cerrar Sesión</a>';
-          navbarUl.appendChild(enlaceCerrarSesion);
+    // Mostrar los detalles del carrito en el modal
+    function mostrarDetallesCarrito() {
+      var carritoDetails = document.getElementById("carrito-details");
 
-          // Agregar evento de clic al enlace de "Cerrar Sesión"
-          enlaceCerrarSesion
-            .querySelector("#logout-link")
-            .addEventListener("click", function () {
-              localStorage.removeItem("auth"); // Eliminar la variable local 'auth'
-              window.location.href = "/"; // Redirigir a la página de inicio u otra página deseada
-            });
-        }
+      // Obtener los elementos en el carrito desde el almacenamiento local
+      var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+      // Limpiar los detalles actuales del carrito
+      carritoDetails.innerHTML = "";
+
+      // Mostrar los detalles del carrito
+      if (carrito.length > 0) {
+        carrito.forEach(function (peliculaId) {
+          // Puedes obtener los detalles de la película desde el servidor si es necesario
+          // y mostrarlos aquí
+          var detallePelicula = "<p>Película #" + peliculaId + "</p>";
+          carritoDetails.innerHTML += detallePelicula;
+        });
+      } else {
+        carritoDetails.innerHTML = "<p>El carrito está vacío.</p>";
       }
-    </script>
+    }
 
-    <footer class="bg-dark text-light pt-5 pb-4">
-      <div class="container text-center text-md-start">
-        <div class="row text-center text-md-start">
-          <div class="text-center mb-2">
-            <p>Copyright Todos los derechos reservados San Pablo</p>
-          </div>
+    // Actualizar el contador y los detalles del carrito cuando se abre el modal
+    document.getElementById("carritoModal").addEventListener("shown.bs.modal", function () {
+      actualizarContadorCarrito();
+      mostrarDetallesCarrito();
+    });
+
+    // Ejecutar el script al cargar la ventana
+    window.addEventListener("load", function () {
+      actualizarContadorCarrito();
+      mostrarDetallesCarrito();
+    });
+    
+  </script>
+
+  <footer class="bg-dark text-light pt-5 pb-4">
+    <div class="container text-center text-md-start">
+      <div class="row text-center text-md-start">
+        <div class="text-center mb-2">
+          <p>Copyright Todos los derechos reservados San Pablo1</p>
         </div>
       </div>
-    </footer>
-  </body>
+    </div>
+  </footer>
+</body>
 </html>

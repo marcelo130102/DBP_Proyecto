@@ -1,0 +1,55 @@
+<!-- carrito.html -->
+
+{% extends "base.html" %} 
+{% block content %}
+
+<div class="container mt-4 mb-4 h-75">
+  <h1>Carrito de Compras</h1>
+
+  <div id="carrito-details">
+    <!-- Los detalles del carrito se mostrarán aquí -->
+  </div>
+  <br>
+  <a href="/" class="btn btn-primary">Volver a la Lista</a>
+  <button class="btn btn-success" onclick="finalizarCompra()">Finalizar Compra</button>
+</div>
+
+<script>
+  function mostrarDetallesCarritoTemplate() {
+    var carritoDetails = document.getElementById("carrito-details");
+
+    // Obtener los elementos en el carrito desde el almacenamiento local
+    var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    // Limpiar los detalles actuales del carrito
+    carritoDetails.innerHTML = "";
+
+    // Mostrar los detalles del carrito
+    if (carrito.length > 0) {
+      carrito.forEach(function (peliculaId) {
+        // Puedes obtener los detalles de la película desde el servidor si es necesario
+        // y mostrarlos aquí
+        var detallePelicula = "<p>Película #" + peliculaId + "</p>";
+        carritoDetails.innerHTML += detallePelicula;
+      });
+    } else {
+      carritoDetails.innerHTML = "<p>El carrito está vacío.</p>";
+    }
+  }
+
+  // Llamar a la función para mostrar los detalles del carrito al cargar la página
+  mostrarDetallesCarritoTemplate();
+
+  function finalizarCompra() {
+    // Puedes agregar lógica adicional para finalizar la compra, como enviar la información al servidor
+    alert("Compra finalizada. ¡Gracias por tu compra!");
+    
+    // Limpiar el carrito al finalizar la compra
+    localStorage.removeItem("carrito");
+    
+    // Redirigir a la página de inicio u otra página deseada
+    window.location.href = "/";
+  }
+</script>
+
+{% endblock %}

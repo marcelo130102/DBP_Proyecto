@@ -1,14 +1,14 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 
-<div class="container mt-4">
+<div class="container mt-4 mb-4 h-75">
   <h1>Detalles de Película</h1>
   <div class="card">
     <!-- <img src="{{ pelicula.imagen }}" class="card-img-top" alt="{{ pelicula.nombre }}"> -->
     <div class="card-body">
       <h5 class="card-title">{{ pelicula.nombre }}</h5>
       <p class="card-text">
-        Director: {% if pelicula.director != '{}' %}{{pelicula.director}}{% else
-        %}No disponible{% endif %}
+        Director: {% if pelicula.director != '{}' %}{{pelicula.director}}{% else %}No disponible{% endif %}
       </p>
       <p class="card-text">Año: {{ pelicula.año }}</p>
       <p class="card-text">
@@ -19,7 +19,33 @@
         Disponible: {% if pelicula.disponible %}Sí{% else %}No{% endif %}
       </p>
       <a href="/" class="btn btn-primary">Volver a la Lista</a>
+      <button class="btn btn-primary" onclick="agregarAlCarrito({{pelicula.id}})">Añadir al Carrito</button>
     </div>
   </div>
 </div>
+
+<script>
+  function agregarAlCarrito(peliculaId) {
+    console.log("algo")
+    // Obtener el carrito del almacenamiento local o inicializarlo
+    var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    
+    // Verificar si la película ya está en el carrito
+    if (!carrito.includes(peliculaId)) {
+      // Añadir la película al carrito
+      carrito.push(peliculaId);
+      
+      // Actualizar el carrito en el almacenamiento local
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      
+      // Actualizar el contador del carrito en el navbar
+      actualizarContadorCarrito();
+      
+      alert("Película añadida al carrito correctamente");
+    } else {
+      alert("La película ya está en el carrito");
+    }
+  }
+</script>
+
 {% endblock %}

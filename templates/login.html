@@ -60,7 +60,7 @@
                         console.log(response);
                         alert(response.mensaje);
                         if (response.status == 'autorizado'){
-                            window.location.href = "/";
+                            window.location.href = "/admin";
                             localStorage.setItem('auth', true);
                         }
                         else if (response.status == 'no_autorizado'){
