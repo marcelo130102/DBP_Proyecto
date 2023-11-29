@@ -11,44 +11,41 @@
   </div>
   <br>
   <a href="/" class="btn btn-primary">Volver a la Lista</a>
-  <button class="btn btn-success" onclick="finalizarCompra()">Finalizar Compra</button>
+  <button class="btn btn-success" onclick="completarCompra()">Finalizar Compra</button>
 </div>
 
 <script>
-  function mostrarDetallesCarritoTemplate() {
-    var carritoDetails = document.getElementById("carrito-details");
-
+  function completarCompra() {
     // Obtener los elementos en el carrito desde el almacenamiento local
     var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // Limpiar los detalles actuales del carrito
-    carritoDetails.innerHTML = "";
-
-    // Mostrar los detalles del carrito
+    // Verificar si hay elementos en el carrito
     if (carrito.length > 0) {
-      carrito.forEach(function (peliculaId) {
-        // Puedes obtener los detalles de la película desde el servidor si es necesario
-        // y mostrarlos aquí
-        var detallePelicula = "<p>Película #" + peliculaId + "</p>";
-        carritoDetails.innerHTML += detallePelicula;
+      // Enviar una solicitud al servidor para completar la compra
+      fetch('/completar_compra', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ carrito: JSON.parse(localStorage.getItem("carrito")) || [] })
+    })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.mensaje);
+        
+        // Limpiar el carrito después de completar la compra
+        localStorage.removeItem("carrito");
+
+        // Redirigir a la página de inicio u otra página deseada
+        window.location.href = "/";
+      })
+      .catch(error => {
+        console.error('Error al completar la compra:', error);
+        alert('Error al completar la compra. Por favor, intenta nuevamente.');
       });
     } else {
-      carritoDetails.innerHTML = "<p>El carrito está vacío.</p>";
+      alert("El carrito está vacío. Añade películas antes de completar la compra.");
     }
-  }
-
-  // Llamar a la función para mostrar los detalles del carrito al cargar la página
-  mostrarDetallesCarritoTemplate();
-
-  function finalizarCompra() {
-    // Puedes agregar lógica adicional para finalizar la compra, como enviar la información al servidor
-    alert("Compra finalizada. ¡Gracias por tu compra!");
-    
-    // Limpiar el carrito al finalizar la compra
-    localStorage.removeItem("carrito");
-    
-    // Redirigir a la página de inicio u otra página deseada
-    window.location.href = "/";
   }
 </script>
 
