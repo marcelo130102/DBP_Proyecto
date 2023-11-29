@@ -101,19 +101,6 @@ def send_login():
         
 # Carrito de compras
 
-@app.route('/agregar_al_carrito/<int:pelicula_id>', methods=['POST'])
-def agregar_al_carrito(pelicula_id):
-    # Obtener el carrito del almacenamiento local o inicializarlo
-    carrito = session.get('carrito', [])
-    
-    # Agregar la película al carrito
-    carrito.append(pelicula_id)
-    
-    # Actualizar el carrito en el almacenamiento local
-    session['carrito'] = carrito
-
-    return jsonify({'mensaje': 'Película agregada al carrito'})
-
 # Nueva ruta para ver el contenido del carrito
 @app.route('/ver_carrito')
 def ver_carrito():
