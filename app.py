@@ -5,7 +5,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://marcelo130102:juansurco1301@marcelo130102.mysql.pythonanywhere-services.com/store'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:marcelo@localhost/store'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Agrega esta línea para desactivar el seguimiento de modificaciones
 app.config['SECRET_KEY'] = 'una_clave_secreta_aleatoria'
 db = SQLAlchemy(app)
@@ -133,6 +133,7 @@ def completar_compra():
     # Obtener el carrito del almacenamiento local
     data = request.get_json()
     carrito = data.get('carrito', [])
+
     print(carrito)
 
     # Verificar si hay elementos en el carrito
@@ -169,42 +170,6 @@ def completar_compra():
     session.pop('carrito', None)
 
     return jsonify({'mensaje': 'Compra completada con éxito'}), 200
-
-
-@app.route('/inicializar_db')
-def inicializar_db():
-    # Inserciones en la tabla Peliculas
-    peliculas_data = [
-        {'nombre': 'Pelicula1', 'director': 'Director1', 'año': 2020, 'precio_alquiler': 9.99, 'disponible': True, 'sinopsis': 'Sinopsis de Pelicula1'},
-        {'nombre': 'Pelicula2', 'director': 'Director2', 'año': 2021, 'precio_alquiler': 8.99, 'disponible': True, 'sinopsis': 'Sinopsis de Pelicula2'},
-        {'nombre': 'Pelicula3', 'director': 'Director3', 'año': 2019, 'precio_alquiler': 7.99, 'disponible': False, 'sinopsis': 'Sinopsis de Pelicula3'},
-        {'nombre': 'Pelicula4', 'director': 'Director1', 'año': 2022, 'precio_alquiler': 10.99, 'disponible': True, 'sinopsis': 'Sinopsis de Pelicula4'},
-        {'nombre': 'Pelicula5', 'director': 'Director2', 'año': 2020, 'precio_alquiler': 8.49, 'disponible': False, 'sinopsis': 'Sinopsis de Pelicula5'},
-        {'nombre': 'Pelicula6', 'director': 'Director3', 'año': 2021, 'precio_alquiler': 9.99, 'disponible': True, 'sinopsis': 'Sinopsis de Pelicula6'},
-        {'nombre': 'Pelicula7', 'director': 'Director1', 'año': 2018, 'precio_alquiler': 7.99, 'disponible': False, 'sinopsis': 'Sinopsis de Pelicula7'},
-        {'nombre': 'Pelicula8', 'director': 'Director2', 'año': 2019, 'precio_alquiler': 8.99, 'disponible': True, 'sinopsis': 'Sinopsis de Pelicula8'},
-        {'nombre': 'Pelicula9', 'director': 'Director3', 'año': 2020, 'precio_alquiler': 6.99, 'disponible': True, 'sinopsis': 'Sinopsis de Pelicula9'},
-        {'nombre': 'Pelicula10', 'director': 'Director1', 'año': 2022, 'precio_alquiler': 11.99, 'disponible': False, 'sinopsis': 'Sinopsis de Pelicula10'},
-    ]
-
-    for pelicula_info in peliculas_data:
-        nueva_pelicula = Peliculas(**pelicula_info)
-        db.session.add(nueva_pelicula)
-
-    # Inserciones en la tabla Users
-    users_data = [
-        {'nombre': 'Usuario1', 'email': 'usuario1@example.com', 'password_k': 'contraseña1'},
-        {'nombre': 'Usuario2', 'email': 'usuario2@example.com', 'password_k': 'contraseña2'},
-    ]
-
-    for user_info in users_data:
-        nuevo_usuario = Users(**user_info)
-        db.session.add(nuevo_usuario)
-
-    # Guardar cambios en la base de datos
-    db.session.commit()
-
-    return 'Base de datos inicializada con datos de ejemplo.'
 
 
 if __name__ == '__main__':
